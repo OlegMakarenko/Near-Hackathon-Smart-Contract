@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body style="background: #fff">
+  <div class="container">
+    <h1>This is just a counter, but this time on blockchain!</h1>
+
+    <div class="sign-in" style="display: none;">
+      <p>You'll need to sign in to call contract methods:</p>
+      <button class="btn btn-primary">Sign In</button>
+    </div>
+
+    <div class="after-sign-in" style="display: none;">
+      <p>Here is how you use can use it from JavaScript.</p>
+
+      <p>To increment:</p>
+      <pre>
+        await contract.incrementCounter();
+      </pre>
+
+      <p>To decrement:</p>
+      <pre>
+        await contract.decrementCounter();
+      </pre>
+
+      <p>To check counter value:</p>
+      <pre>
+        await contract.getCounter();
+      </pre>
+    </div>
+
+    <div id="result">
+      Res_
+    </div>
+    <button id="inc_btn"> ++ </button>
+    <div class="after-sign-in sign-out" style="display: none;">
+      <button class="btn btn-primary">Sign Out</button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/nearprotocol/nearlib@09127f91aace8b95f97e8c51d5d32c5c7ad555e2/dist/nearlib.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script src="./config.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>
