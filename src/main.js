@@ -8,8 +8,8 @@ async function connect() {
 
   // Initializing our contract APIs by contract name and configuration.
   window.contract = await near.loadContract(nearConfig.contractName, {
-    viewMethods: ["getCounter"],
-    changeMethods: ["incrementCounter", "decrementCounter"],
+    viewMethods: ["totalSupply", "balanceOf", "allowance", "getSponsor"],
+    changeMethods: ["init", "transfer", "approve", "transferFrom", "setSponsor"],
     sender: window.walletAccount.getAccountId()
   });
 }
@@ -38,14 +38,21 @@ window.nearInitPromise = connect()
   .catch(console.error);
 
 
-document.getElementById("inc_btn").addEventListener('click', () => {
-  inc();
-});
+document.getElementById("set").addEventListener("click", () => { setSponsor() } );
+document.getElementById("get").addEventListener("click", () => { getSponsor() } );
 
+async function setSponsor(){
+  var address = document.getElementById("s_s_a").value;
+  var value = document.getElementById("s_s_v").value;
+  console.log(address, value);
+  await contract.setSponsor({address: address, amount: Number(value)});
+}
 
-
-async function inc(){
-  document.getElementById("result").innerHTML = "gh"
-  await contract.incrementCounter();
-  document.getElementById("result").innerHTML = await contract.getCounter();
+async function getSponsor(){
+  var address = document.getElementById("g_s_a").value;
+  var value = document.getElementById("g_s_v");
+  console.log(address);
+  let a = await contract.getSponsor({address: address});
+  console.log(a)
+  value.value = a;
 }

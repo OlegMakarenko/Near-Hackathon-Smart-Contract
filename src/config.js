@@ -1,5 +1,5 @@
 (function() {
-    const CONTRACT_NAME = 'studio-sfkaxbebg'; /* TODO: fill this in! */
+    const CONTRACT_NAME = 'studio-cpnqfewgw'; /* TODO: fill this in! */
     const DEFAULT_ENV = 'development';
 
     function getConfig(env) {
