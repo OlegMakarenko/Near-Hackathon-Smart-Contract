@@ -8,8 +8,20 @@ async function connect() {
 
   // Initializing our contract APIs by contract name and configuration.
   window.contract = await near.loadContract(nearConfig.contractName, {
-    viewMethods: ["totalSupply", "balanceOf", "allowance", "getSponsor"],
-    changeMethods: ["init", "transfer", "approve", "transferFrom", "setSponsor"],
+    viewMethods: [
+      "totalSupply", 
+      "balanceOf", 
+      "allowance", 
+      "getSponsor",
+      "getBank"
+    ],
+    changeMethods: [
+      "init", 
+      "transfer", 
+      "approve", 
+      "transferFrom", 
+      "setSponsor"
+    ],
     sender: window.walletAccount.getAccountId()
   });
 }
@@ -20,6 +32,8 @@ function updateUI() {
   } else {
     Array.from(document.querySelectorAll('.after-sign-in')).map(it => it.style = "display: block;");
   }
+
+  getBank();
 }
 
 // Log in user using NEAR Wallet on "Sign In" button click
@@ -55,4 +69,10 @@ async function getSponsor(){
   let a = await contract.getSponsor({address: address});
   console.log(a)
   value.value = a;
+}
+
+
+async function getBank(){
+  let a = await contract.getBank();
+  console.log("Bank", a)
 }

@@ -1,5 +1,5 @@
 //@nearfile
-import { context, storage, logging, collections, PersistentMap, PersistentTopN } from "near-runtime-ts";
+import { context, storage, logging, collections, PersistentMap, PersistentVector, PersistentTopN } from "near-runtime-ts";
 //import "allocator/arena";
 // Import encoder
 import { JSONEncoder } from "assemblyscript-json";
@@ -84,13 +84,16 @@ function getBalance(owner: string) : u64 {
 
 
 
-
 let sponsors = new PersistentMap<string, i32>("s:");
 let judges = new PersistentMap<string, i32>("j:");
 let members = new PersistentMap<string, i32>("m:");
+let membersAccounts = new PersistentVector<string>("ma:"); 
 //let members = new PersistentTopN<i32>("m:");
-let totalAmount = 0;
+let totalAmount: i32 = 0;
 
+export function getBank(): i32 {
+  return totalAmount;
+}
 
 export function setSponsor(address: string, amount: i32): void {
   storage.set<i32>("s:" + address, amount);
@@ -117,6 +120,7 @@ export function getJudgeAvailableScore(address: string): i32 {
 
 export function setMember(address: string): void {
   storage.set<i32>("m:" + address, 0);
+  membersAccounts.push(address);
 }
 
 export function setMemberScore(address: string, score: i32): void {
@@ -126,8 +130,12 @@ export function setMemberScore(address: string, score: i32): void {
 }
 
 export function getMemberScore(address: string): i32 {
-  let judge = storage.getPrimitive<i32>("m:" + address, 0)
-  return judge;
+  let member = storage.getPrimitive<i32>("m:" + address, 0)
+  return member;
+}
+
+function closeHackathon(): void {
+  
 }
 
 
@@ -147,49 +155,44 @@ function getAmmountForWinner(place: i32): i32 {
 
 class Winner {
     address: string; 
-    //score: i32; 
+    score: i32; 
     amount: i32 
+}
+
+class Member {
+  address: string; 
+  score: i32; 
 }
 
 
 
-export function finalize(address: string): String {
+export function finalize(address: string): Winner[] {
+  let memberRank: Array<Member>;
 
-  let top3Members: Array<string>;  // Array of top 3 accounts. Have to be get from Map "members". 
+  for(let i = 0; i < membersAccounts.length; i++) {
+    memberRank.push({address: membersAccounts[i], score: getMemberScore(membersAccounts[i])});
+  }
 
-  //TODO sort and put addresses to Array "top3Mambers"
+  memberRank.sort((l, r): i32 => {
+    if(l.score < r.score) return -1;
+    if(l.score > r.score) return 1;
+    return 0;
+  });
 
-
-  //let top3 = members.getTop(3);
   let winners: Winner[];
 
-  for(let i = 0; i < top3Members.length; i++)
+  for(let i = 0; i < memberRank.length; i++)
    winners[i]=({
-       address: <string>top3Members[i],
-       //score: <i32>members.get(top3Members[i]),
+       address: <string>memberRank[i].address,
+       score: <i32>memberRank[i].score,
        amount: <i32>(getAmmountForWinner(i+1))
      })
 
   let encoder = new JSONEncoder();
 
+  closeHackathon()
 
-  //TODO put data to JSON string and retun it
-
-
-
-  // Construct necessary object
-  // encoder.pushObject("obj");
-  // for(let i in topMembers)
-  //   if(topMembers[0].address)
-  //     encoder.setString(""+topMembers[i].address, ""+topMembers[i].score);
-  // encoder.popObject();
-
-  // // Get serialized data
-  // let json: Uint8Array = encoder.serialize();
-
-  // // Or get serialized data as string
-  // let jsonString: String = encoder.toString();
-  return "{JSON}";
+  return winners;
 }
 
 

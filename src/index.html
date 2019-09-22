@@ -6,46 +6,68 @@
 </head>
 <body style="background: #fff">
   <div class="container">
-    <h1>Hello, you have got a token!</h1>
+    <h1>Welcome to Hackathon!</h1>
 
     <div class="sign-in" style="display: none;">
-      <p>You'll need to sign in to call contract methods:</p>
+      <p>Please sign in</p>
       <button class="btn btn-primary">Sign In</button>
     </div>
 
     <div class="after-sign-in" style="display: none;">
-      <p>Here is how you use can use it from JavaScript.</p>
-  
-      <p>To init:</p>
-      <pre>
-        contract.init({initialOwner: walletAccount.getAccountId()})
-      </pre>
+
+      <div id="sponsor_panel">
+        <h3>
+        You are sponsor and you can add judge to this Hackathon<br>
+        </h3>
+        <br>
+        <label> Judge account </label><br>
+        <input id="judge_account" /><br><br>
+        <button id="add_judge" class="btn btn-primary"/> Add judge </button>
+      </div>
+
+      <div id="judje_panel">
+        <h3>
+        You are judge and you can vote<br>
+        </h3>
+        <br>
+        <label> Member account </label><br>
+        <input id="member_account" /><br>
+        <label> Score </label><br>
+        <input id="judje_score" /><br><br>
+        <button id="vote" class="btn btn-primary"/> Vote </button>
+      </div>
       
-      <p>To check your balance:</p>
-      <pre>
-        contract.balanceOf({tokenOwner: walletAccount.getAccountId()})
-      </pre>
-      
-      <p>To send money:</p>
-      <pre>
-        contract.transfer({to: 'bob.near', tokens: '1000'})
-      </pre>
+      <br>
+      <br>
+      <div id="member_panel">
+        <h3>
+        To become a member please click on button bellow<br>
+        </h3>
+        <button id="add_member" class="btn btn-primary"/> Participate </button>
+      </div>
     </div>
+    <br>
     <div class="after-sign-in sign-out" style="display: none;">
-      <button class="btn btn-primary">Sign Out</button>
+      <button class="btn btn-secondary" style="float: right">Sign Out</button>
     </div>
   </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div style="display: none;">
+    <label>Set Sponsor </label>
+    <input id="s_s_a" />
+    <input id="s_s_v" />
+    <button id="set" onclick="setSponsor"> Set </button>
 
-  <label>Set Sponsor </label>
-  <input id="s_s_a" />
-  <input id="s_s_v" />
-  <button id="set" onclick="setSponsor"> Set </button>
-
-  <label>Get Sponsor</label>
-  <input id="g_s_a" />
-  <button id="get" onclick="getSponsor"> Get </button>
-  <input id="g_s_v" />
-
+    <label>Get Sponsor</label>
+    <input id="g_s_a" />
+    <button id="get" onclick="getSponsor"> Get </button>
+    <input id="g_s_v" />
+  </div>
 
   <script src="https://cdn.jsdelivr.net/gh/nearprotocol/nearlib@09127f91aace8b95f97e8c51d5d32c5c7ad555e2/dist/nearlib.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
